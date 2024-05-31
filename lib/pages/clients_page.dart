@@ -1,10 +1,10 @@
 import 'package:client_control/models/client_type.dart';
 import 'package:client_control/models/client.dart';
 import 'package:client_control/models/clients.dart';
+import 'package:client_control/models/types.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
-import '../components/hamburger_menu.dart';
+import 'package:client_control/components/hamburger_menu.dart';
 
 class ClientsPage extends StatefulWidget {
   const ClientsPage({Key? key, required this.title}) : super(key: key);
@@ -15,13 +15,6 @@ class ClientsPage extends StatefulWidget {
 }
 
 class _ClientsPageState extends State<ClientsPage> {
-  List<ClientType> types = [
-    ClientType(name: 'Platinum', icon: Icons.credit_card),
-    ClientType(name: 'Golden', icon: Icons.card_membership),
-    ClientType(name: 'Titanium', icon: Icons.credit_score),
-    ClientType(name: 'Diamond', icon: Icons.diamond),
-  ];
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -67,7 +60,8 @@ class _ClientsPageState extends State<ClientsPage> {
   void createType(context) {
     TextEditingController nomeInput = TextEditingController();
     TextEditingController emailInput = TextEditingController();
-    ClientType dropdownValue = types[0];
+    Types listTypes = Provider.of<Types>(context, listen: false);
+    ClientType dropdownValue = listTypes.types[0];
 
     showDialog(
         context: context,
@@ -113,7 +107,7 @@ class _ClientsPageState extends State<ClientsPage> {
                             dropdownValue = newValue as ClientType;
                           });
                         },
-                        items: types.map((ClientType type) {
+                        items: listTypes.types.map((ClientType type) {
                           return DropdownMenuItem<ClientType>(
                             value: type,
                             child: Text(type.name),
@@ -131,7 +125,7 @@ class _ClientsPageState extends State<ClientsPage> {
                 return TextButton(
                     child: const Text("Salvar"),
                     onPressed: () async {
-                      list.clients.add(
+                      list.add(
                         Client(
                           name: nomeInput.text,
                           email: emailInput.text,
