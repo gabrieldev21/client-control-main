@@ -46,9 +46,7 @@ class _ClientsPageState extends State<ClientsPage> {
                   iconColor: Colors.indigo,
                 ),
                 onDismissed: (direction) {
-                  setState(() {
-                    list.clients.removeAt(index);
-                  });
+                  list.clients.remove(index);
                 },
               );
             },
@@ -133,12 +131,13 @@ class _ClientsPageState extends State<ClientsPage> {
                 return TextButton(
                     child: const Text("Salvar"),
                     onPressed: () async {
-                      setState(() {
-                        list.clients.add(Client(
-                            name: nomeInput.text,
-                            email: emailInput.text,
-                            type: dropdownValue));
-                      });
+                      list.clients.add(
+                        Client(
+                          name: nomeInput.text,
+                          email: emailInput.text,
+                          type: dropdownValue,
+                        ),
+                      );
                       Navigator.pop(context);
                     });
               }),
